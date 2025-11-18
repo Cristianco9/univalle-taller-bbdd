@@ -175,7 +175,7 @@ INSERT INTO Estudiantes (nombre, apellido, edad, id_carrera) VALUES
 ('Natalia', 'Córdoba', 24, 8),
 
 ('Sebastián', 'Ocampo', 20, 9),
-('Mariana', 'Quintero', 21, 9),
+('Danna', 'Quintero', 21, 9),
 
 ('Tomás', 'Salazar', 19, 10),
 ('Isabela', 'Fernández', 20, 10);
@@ -220,7 +220,20 @@ INSERT INTO Inscripciones (id_estudiante, id_curso, semestre, nota) VALUES
 
 -- Derecho
 (17, 15, 3, 4.0),
-(18, 16, 3, 4.4);
+(18, 16, 3, 4.4),
+
+-- Medicina
+(19, 17, 1, 4.3),
+(19, 18, 1, 4.1),
+(20, 17, 1, 3.9),
+(20, 18, 1, 4.5),
+
+-- Arquitectura
+(21, 19, 2, 3.7),
+(21, 20, 2, 4.0),
+(22, 19, 2, 4.4),
+(22, 20, 2, 4.2); 
+
 
 -------------------------------------
 --      CONSULTAS
@@ -322,4 +335,32 @@ JOIN inscripciones i2
 -------------------------------------
 
 -------------------------------------
--- Consulta 6: INTERSECT
+-- Consulta 7: EXCEPT
+SELECT DISTINCT c.id_curso, c.nombre_curso, cr.nombre_carrera
+FROM cursos c
+JOIN inscripciones i ON i.id_curso = c.id_curso
+JOIN carreras cr ON cr.id_carrera = c.id_carrera
+
+EXCEPT
+
+SELECT DISTINCT c.id_curso, c.nombre_curso, cr.nombre_carrera
+FROM cursos c
+JOIN inscripciones i ON i.id_curso = c.id_curso
+JOIN estudiantes e ON e.id_estudiante = i.id_estudiante
+JOIN carreras cr ON cr.id_carrera = c.id_carrera
+WHERE c.id_carrera = (SELECT id_carrera FROM carreras WHERE nombre_carrera = 'Medicina');
+-------------------------------------
+
+-------------------------------------
+-- Consulta 8: CROSS JOIN
+-- Como yo tengo varias carreras de ingeniería,
+-- pues entonces voy a filtrar por la Ingeniería de Sistemas 
+SELECT e.id_estudiante, e.nombre, e.apellido, 
+c.id_curso, c.nombre_curso, c.creditos
+FROM estudiantes e
+CROSS JOIN cursos c
+JOIN carreras cr ON cr.id_carrera = e.id_carrera
+WHERE c.id_carrera = 
+(SELECT id_carrera FROM carreras WHERE nombre_carrera = 'Ingeniería de Sistemas')
+AND (c.creditos > 3);
+-------------------------------------
