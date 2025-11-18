@@ -150,6 +150,8 @@ INSERT INTO Cursos (nombre_curso, creditos, id_profesor, id_carrera) VALUES
 INSERT INTO Estudiantes (nombre, apellido, edad, id_carrera) VALUES
 ('Juan', 'Pérez', 20, 1),
 ('Camila', 'Rojas', 22, 1),
+('Laura', 'Garcia', 23, 1),
+('Mariana', 'Lopez', 23, 1),
 
 ('Andrés', 'García', 21, 2),
 ('Valentina', 'Ruiz', 23, 2),
@@ -185,41 +187,46 @@ INSERT INTO Inscripciones (id_estudiante, id_curso, semestre, nota) VALUES
 (1, 2, 1, 3.8),
 (2, 1, 1, 4.0),
 (2, 2, 1, 4.2),
+(3, 1, 1, 3.2),
+(3, 2, 1, 4.7),
+(4, 1, 1, 4.2),
+(4, 2, 1, 4.1),
 
 -- Ingeniería Industrial
-(3, 3, 2, 3.9),
-(3, 4, 2, 4.1),
-(4, 3, 2, 4.4),
+(5, 3, 2, 3.9),
+(5, 4, 2, 4.1),
+(6, 3, 2, 4.4),
 
 -- Electrónica
-(5, 5, 1, 3.5),
-(6, 6, 1, 4.7),
-(5, 6, 1, 4.0),
+(7, 5, 1, 3.5),
+(8, 6, 1, 4.7),
+(7, 6, 1, 4.0),
 
 -- Administración
-(7, 7, 3, 4.3),
-(8, 8, 3, 3.7),
+(9, 7, 3, 4.3),
+(10, 8, 3, 3.7),
 
 -- Contaduría
-(9, 9, 1, 4.6),
-(10, 10, 1, 3.9),
+(11, 9, 1, 4.6),
+(12, 10, 1, 3.9),
 
 -- Diseño Gráfico
-(11, 11, 2, 4.1),
-(12, 12, 2, 3.6),
+(13, 11, 2, 4.1),
+(14, 12, 2, 3.6),
 
 -- Psicología
-(13, 13, 4, 4.8),
-(14, 14, 4, 3.5),
+(15, 13, 4, 4.8),
+(16, 14, 4, 3.5),
 
 -- Derecho
-(15, 15, 3, 4.0),
-(16, 16, 3, 4.4);
+(17, 15, 3, 4.0),
+(18, 16, 3, 4.4);
 
 -------------------------------------
 --      CONSULTAS
 -------------------------------------
 
+-------------------------------------
 -- Consulta 1: UNION
 -- id_carrera = 1 -> Ingeniería de sistemas
 -- id_carrera = 9 -> Medicina
@@ -233,10 +240,10 @@ SELECT e.nombre, e.apellido, c.nombre_carrera
 FROM estudiantes e
 JOIN carreras c ON c.id_carrera = e.id_carrera
 WHERE e.id_carrera = 9;
+-------------------------------------
 
-
--- Consulta 2: INTERSECT
--- 
+-------------------------------------
+-- Consulta 2: INTERSECT 
 SELECT e.id_estudiante, e.nombre, e.apellido
 FROM estudiantes e
 JOIN inscripciones i ON i.id_estudiante = e.id_estudiante
@@ -250,3 +257,69 @@ FROM estudiantes e
 JOIN inscripciones i ON i.id_estudiante = e.id_estudiante
 JOIN cursos c ON c.id_curso = i.id_curso 
 WHERE c.id_curso = (SELECT id_curso FROM cursos WHERE nombre_curso = 'Bases de Datos');
+-------------------------------------
+
+-------------------------------------
+-- Consulta 3: EXCEPT
+SELECT e.id_estudiante, e.nombre, e.apellido, c.nombre_curso
+FROM estudiantes e
+JOIN inscripciones i ON i.id_estudiante = e.id_estudiante
+JOIN cursos c ON c.id_curso = i.id_curso
+EXCEPT 
+SELECT e.id_estudiante, e.nombre, e.apellido, c.nombre_curso
+FROM estudiantes e
+JOIN inscripciones i ON i.id_estudiante = e.id_estudiante
+JOIN cursos c ON c.id_curso = i.id_curso
+WHERE c.id_curso = (SELECT id_curso FROM cursos WHERE nombre_curso = 'Bases de Datos');
+-------------------------------------
+
+-------------------------------------
+-- Consulta 4: CROSS JOIN
+SELECT *
+FROM estudiantes
+CROSS JOIN cursos;
+-------------------------------------
+-- ¿Cuántas filas resultan de esta operación? 
+-- Resultan 400 filas ya que tengo
+-- 22 estudiantes y 20 cursos, asi que el producto
+-- cartesiano resultante es la operación de multiplicar
+-- 22 estudiante * 20 cursos dando 400 registros
+-------------------------------------
+
+-------------------------------------
+-- Consulta 5: UNION con proyección
+SELECT cr.nombre_carrera AS respuesta
+FROM estudiantes e
+JOIN carreras cr ON cr.id_carrera = e.id_carrera
+
+UNION
+
+SELECT CONCAT(nombre, ' ', apellido)AS respuesta
+FROM cursos c
+JOIN profesores p ON p.id_profesor = c.id_profesor;
+-------------------------------------
+
+-------------------------------------
+-- Consulta 6: INTERSECT
+SELECT 
+    e1.id_estudiante AS id_estudiante1,
+	CONCAT(e1.nombre, ' ', e1.apellido) AS nombre_e1,
+    e2.id_estudiante AS id_estudiante2,
+	CONCAT(e2.nombre, ' ', e2.apellido) AS nombre_e2,
+    e1.edad,
+    i1.id_curso
+	
+FROM estudiantes e1
+JOIN inscripciones i1 ON i1.id_estudiante = e1.id_estudiante
+
+JOIN estudiantes e2 
+    ON e2.edad = e1.edad 
+    AND e2.id_estudiante > e1.id_estudiante
+
+JOIN inscripciones i2 
+    ON i2.id_estudiante = e2.id_estudiante
+    AND i2.id_curso = i1.id_curso;
+-------------------------------------
+
+-------------------------------------
+-- Consulta 6: INTERSECT
