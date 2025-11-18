@@ -400,3 +400,48 @@ WHERE EXISTS (
 	AND c3.id_curso <> c2.id_curso
 );
 -------------------------------------
+
+-------------------------------------
+-- Consulta 11: INTERSECT
+-- El semestre lo guarde de tipo INT y no VARCHAR
+-- asi que no puedo filtrar por '2025-1' solo 1
+SELECT id_curso, nombre_completo, nombre_curso FROM (
+    SELECT 
+        c.id_curso,
+        CONCAT(e.nombre, ' ', e.apellido) AS nombre_completo,
+        c.nombre_curso
+    FROM inscripciones i
+    JOIN estudiantes e ON e.id_estudiante = i.id_estudiante
+    JOIN cursos c ON c.id_curso = i.id_curso
+
+    EXCEPT
+
+    SELECT 
+        c.id_curso,
+        CONCAT(e.nombre, ' ', e.apellido) AS nombre_completo,
+        c.nombre_curso
+    FROM inscripciones i
+    JOIN estudiantes e ON e.id_estudiante = i.id_estudiante
+    JOIN cursos c ON c.id_curso = i.id_curso
+    WHERE i.semestre != 1
+) AS t
+ORDER BY id_curso;
+-------------------------------------
+
+-------------------------------------
+-- Consulta 12: CROSS JOIN 
+-- 22 estudiantes
+-- 20 cursos
+-- 32 inscripciones
+-- 22 * 20 * 32 = 14080 combinaciones
+-- con la condición se limita a las 32 inscripciones reales
+SELECT 
+    e.id_estudiante, e.nombre AS nombre_estudiante, e.apellido AS apellido_estudiante,
+    c.id_curso, c.nombre_curso,
+    i.id_inscripcion, i.semestre, i.nota
+FROM estudiantes e
+CROSS JOIN cursos c
+CROSS JOIN inscripciones i
+WHERE i.id_estudiante = e.id_estudiante
+    AND i.id_curso = c.id_curso;
+-------------------------------------
