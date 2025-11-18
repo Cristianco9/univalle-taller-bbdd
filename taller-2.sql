@@ -364,3 +364,39 @@ WHERE c.id_carrera =
 (SELECT id_carrera FROM carreras WHERE nombre_carrera = 'Ingeniería de Sistemas')
 AND (c.creditos > 3);
 -------------------------------------
+
+-------------------------------------
+-- Consulta 9: UNION
+SELECT CONCAT(e.nombre, ' ', e.apellido) AS nombre_completo
+FROM inscripciones i
+JOIN estudiantes e ON e.id_estudiante = i.id_estudiante
+WHERE i.nota > 4.5
+
+UNION
+
+SELECT CONCAT(p.nombre, ' ', p.apellido) AS nombre_completo
+FROM cursos c
+JOIN profesores p ON p.id_profesor = c.id_profesor
+WHERE c.creditos >= 4;
+-------------------------------------
+
+-------------------------------------
+-- Consulta 10: INTERSECT
+SELECT i1.id_estudiante
+FROM inscripciones i1
+JOIN cursos c1 ON c1.id_curso = i1.id_curso
+
+INTERSECT
+
+SELECT i2.id_estudiante
+FROM inscripciones i2
+JOIN cursos c2 ON c2.id_curso = i2.id_curso
+WHERE EXISTS (
+	SELECT 1
+	FROM inscripciones i3
+	JOIN cursos c3 ON c3.id_curso = i3.id_curso
+	WHERE i3.id_estudiante = i2.id_estudiante
+	AND i3.semestre = i2.semestre
+	AND c3.id_curso <> c2.id_curso
+);
+-------------------------------------
