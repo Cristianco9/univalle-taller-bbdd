@@ -117,7 +117,7 @@ INSERT INTO Profesores (nombre, apellido, edad) VALUES
 -- Cursos
 INSERT INTO Cursos (nombre_curso, creditos, id_profesor, id_carrera) VALUES
 ('Programación I', 3, 1, 1),
-('Estructuras de Datos', 4, 1, 1),
+('Bases de Datos', 4, 1, 1),
 
 ('Procesos Industriales', 3, 2, 2),
 ('Logística I', 3, 2, 2),
@@ -215,3 +215,38 @@ INSERT INTO Inscripciones (id_estudiante, id_curso, semestre, nota) VALUES
 -- Derecho
 (15, 15, 3, 4.0),
 (16, 16, 3, 4.4);
+
+-------------------------------------
+--      CONSULTAS
+-------------------------------------
+
+-- Consulta 1: UNION
+-- id_carrera = 1 -> Ingeniería de sistemas
+-- id_carrera = 9 -> Medicina
+
+SELECT e.nombre, e.apellido, c.nombre_carrera
+FROM estudiantes e
+JOIN carreras c ON c.id_carrera = e.id_carrera
+WHERE e.id_carrera = 1
+UNION
+SELECT e.nombre, e.apellido, c.nombre_carrera
+FROM estudiantes e
+JOIN carreras c ON c.id_carrera = e.id_carrera
+WHERE e.id_carrera = 9;
+
+
+-- Consulta 2: INTERSECT
+-- 
+SELECT e.id_estudiante, e.nombre, e.apellido
+FROM estudiantes e
+JOIN inscripciones i ON i.id_estudiante = e.id_estudiante
+JOIN cursos c ON c.id_curso = i.id_curso 
+WHERE c.id_curso = (SELECT id_curso FROM cursos WHERE nombre_curso = 'Programación I')
+
+INTERSECT
+
+SELECT e.id_estudiante, e.nombre, e.apellido
+FROM estudiantes e
+JOIN inscripciones i ON i.id_estudiante = e.id_estudiante
+JOIN cursos c ON c.id_curso = i.id_curso 
+WHERE c.id_curso = (SELECT id_curso FROM cursos WHERE nombre_curso = 'Bases de Datos');
