@@ -250,8 +250,9 @@ FOREIGN KEY (numero_cuenta)
 REFERENCES cuentas(numero_cuenta);
 
 -------------------------------------
---      MODIFICACIONES A LAS ENTIDADES
+--  MODIFICACIONES A LAS ENTIDADES
 -------------------------------------
+
 ALTER TABLE clientes
 ADD COLUMN felefono_2 VARCHAR(20);
 
@@ -260,3 +261,19 @@ ALTER COLUMN descripcion TYPE VARCHAR(500);
 
 ALTER TABLE prestamos
 ADD COLUMN observaciones TEXT;
+
+-------------------------------------
+--      AGREGANDO INDICES
+-------------------------------------
+
+CREATE INDEX idx_clientes_email
+ON clientes(email);
+
+CREATE INDEX idx_clientes_numero_documento
+ON clientes(numero_documento);
+
+CREATE INDEX idx_transacciones_fecha_hora
+ON transacciones(fecha_hora);
+
+CREATE INDEX idx_cuenta_id_cliente
+ON cuentas(id_cliente);
