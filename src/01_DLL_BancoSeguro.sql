@@ -248,3 +248,15 @@ ALTER TABLE tarjetas
 ADD CONSTRAINT fk_tarjeta_cuenta
 FOREIGN KEY (numero_cuenta)
 REFERENCES cuentas(numero_cuenta);
+
+-------------------------------------
+--      MODIFICACIONES A LAS ENTIDADES
+-------------------------------------
+ALTER TABLE clientes
+ADD COLUMN felefono_2 VARCHAR(20);
+
+ALTER TABLE transacciones
+ALTER COLUMN descripcion TYPE VARCHAR(500);
+
+ALTER TABLE prestamos
+ADD COLUMN observaciones TEXT;
