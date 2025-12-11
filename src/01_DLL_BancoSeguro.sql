@@ -10,7 +10,7 @@ CREATE DATABASE BancoSeguroDB;
 -- Entidad Clientes
 CREATE TABLE clientes (
     id_cliente          SERIAL PRIMARY KEY,
-    tipo_documento      VARCHAR(10) NOT NULL UNIQUE 
+    tipo_documento      VARCHAR(10) NOT NULL 
                         CHECK (tipo_documento IN ('CC','CE','NIT','PASAPORTE')),
     numero_documento    VARCHAR(20) NOT NULL,
     primer_nombre       VARCHAR(50) NOT NULL,
