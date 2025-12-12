@@ -277,3 +277,32 @@ ON transacciones(fecha_hora);
 
 CREATE INDEX idx_cuenta_id_cliente
 ON cuentas(id_cliente);
+
+-------------------------------------
+--      DROPS
+-------------------------------------
+
+-- Indices
+DROP INDEX IF EXISTS idx_clientes_email;
+DROP INDEX IF EXISTS idx_clientes_numero_documento;
+DROP INDEX IF EXISTS idx_transacciones_fecha_hora;
+DROP INDEX IF EXISTS idx_cuenta_id_cliente;
+
+-- Entidades fuertes
+DROP TABLE IF EXISTS transacciones CASCADE;
+DROP TABLE IF EXISTS tarjetas CASCADE;
+DROP TABLE IF EXISTS prestamos CASCADE;
+
+-- Entidades débiles
+DROP TABLE IF EXISTS cuentas CASCADE;
+DROP TABLE IF EXISTS empleados CASCADE;
+DROP TABLE IF EXISTS clientes CASCADE;
+DROP TABLE IF EXISTS sucursales CASCADE;
+DROP TABLE IF EXISTS cargos CASCADE;
+DROP TABLE IF EXISTS tipos_transaccion CASCADE;
+DROP TABLE IF EXISTS tipos_cuenta CASCADE;
+DROP TABLE IF EXISTS tipos_tarjeta CASCADE;
+DROP TABLE IF EXISTS tipos_prestamo CASCADE;
+
+-- Borra la BBDD
+DROP DATABASE IF EXISTS BancoSeguroDB;
