@@ -40,7 +40,8 @@ VALUES
 ('CC','55005500','Natalia','Sofía','Muñoz','Rivas','1999-12-01','natalia.munoz@mail.com','3106667788','Cra 40 #10-40','Medellín','Activo'),
 ('CC','66006600','Camilo','José','Duarte','Salas','1992-02-10','camilo.duarte@mail.com','3007778899','Av 33 #44-11','Cali','Activo'),
 ('CC','77007700','Valentina','Alejandra','Rojas','Melo','2000-08-12','valentina.rojas@mail.com','3118889900','Cll 5 #12-55','Bogotá','Activo'),
-('CE','88008800','Samuel','Esteban','Morales','Pérez','1994-06-18','samuel.morales@mail.com','3009990011','Cra 20 #33-22','Manizales','Activo');
+('CE','88008800','Samuel','Esteban','Morales','Pérez','1994-06-18','samuel.morales@mail.com','3009990011','Cra 20 #33-22','Manizales','Activo'),
+('CC','99009900','Carlos','Andrés','Vega','López','1991-04-25','carlos.vega@mail.com','3121234455','Cll 23 #11-09','Pereira','Activo');
 
 -- Tipos de cuentas
 INSERT INTO tipos_cuenta (nombre_tipo, descripcion, permite_interes)
@@ -77,28 +78,35 @@ VALUES
 ('Pago', 'Pago de obligaciones o servicios', TRUE, TRUE);
 
 -- Transacciones
-INSERT INTO transacciones (id_empleado, numero_cuenta_origen, numero_cuenta_destino, id_tipo_transaccion, monto, descripcion, estado)
+INSERT INTO transacciones (
+    id_empleado, numero_cuenta_origen, numero_cuenta_destino,
+    id_tipo_transaccion, monto, descripcion, estado, fecha_hora
+)
 VALUES
-(2,10000001,NULL,1,500000,'Depósito en ventanilla','Exitosa'),
-(4,10000003,NULL,2,200000,'Retiro en cajero','Exitosa'),
-(3,10000004,10000010,3,300000,'Transferencia cliente a cliente','Exitosa'),
-(1,10000002,NULL,2,150000,'Retiro sucursal','Exitosa'),
-(5,10000005,NULL,1,1000000,'Depósito empresarial','Exitosa'),
-(4,10000006,NULL,2,100000,'Retiro','Exitosa'),
-(3,10000007,10000008,3,250000,'Envio entre cuentas','Exitosa'),
-(6,10000009,NULL,1,400000,'Depósito','Exitosa'),
-(2,10000011,NULL,2,50000,'Retiro','Exitosa'),
-(1,10000012,NULL,1,300000,'Depósito','Exitosa'),
-(4,10000013,10000009,3,150000,'Transferencia interna','Exitosa'),
-(3,10000014,NULL,1,200000,'Depósito','Exitosa'),
-(6,10000015,NULL,2,300000,'Retiro','Exitosa'),
-(2,10000008,10000002,3,350000,'Transferencia','Exitosa'),
-(1,10000010,NULL,1,450000,'Depósito','Exitosa'),
-(5,10000006,NULL,2,60000,'Retiro','Exitosa'),
-(4,10000001,10000003,3,500000,'Transferencia','Exitosa'),
-(3,10000002,NULL,1,200000,'Depósito','Exitosa'),
-(2,10000003,NULL,2,100000,'Retiro','Exitosa'),
-(1,10000004,NULL,1,150000,'Depósito','Exitosa');
+(2,10000001,NULL,1,500000,'Depósito en ventanilla','Exitosa','2024-01-10 09:15:00'),
+(4,10000003,NULL,2,200000,'Retiro en cajero','Exitosa','2024-01-22 14:40:00'),
+(3,10000004,10000010,3,300000,'Transferencia cliente a cliente','Exitosa','2024-02-05 11:10:00'),
+(1,10000002,NULL,2,150000,'Retiro sucursal','Exitosa','2024-02-17 16:25:00'),
+(5,10000005,NULL,1,1000000,'Depósito empresarial','Exitosa','2024-03-03 10:05:00'),
+(4,10000006,NULL,2,100000,'Retiro','Exitosa','2024-03-18 13:20:00'),
+(3,10000007,10000008,3,250000,'Envio entre cuentas','Exitosa','2024-04-12 15:45:00'),
+(6,10000009,NULL,1,400000,'Depósito','Exitosa','2024-04-25 09:55:00'),
+(2,10000011,NULL,2,50000,'Retiro','Exitosa','2024-05-04 12:10:00'),
+(1,10000012,NULL,1,300000,'Depósito','Exitosa','2024-05-27 17:30:00'),
+(4,10000013,10000009,3,150000,'Transferencia interna','Exitosa','2024-06-02 09:05:00'),
+(3,10000014,NULL,1,200000,'Depósito','Exitosa','2024-06-20 11:22:00'),
+(6,10000015,NULL,2,300000,'Retiro','Exitosa','2024-07-08 14:40:00'),
+(2,10000008,10000002,3,350000,'Transferencia','Exitosa','2024-07-29 10:10:00'),
+(1,10000010,NULL,1,450000,'Depósito','Exitosa','2024-08-14 08:50:00'),
+(5,10000006,NULL,2,60000,'Retiro','Exitosa','2024-08-30 13:33:00'),
+(4,10000001,10000003,3,500000,'Transferencia','Exitosa','2024-09-09 11:45:00'),
+(3,10000002,NULL,1,200000,'Depósito','Exitosa','2024-09-25 16:10:00'),
+(2,10000003,NULL,2,100000,'Retiro','Exitosa','2024-10-11 15:55:00'),
+(1,10000004,NULL,1,150000,'Depósito','Exitosa','2024-10-29 09:40:00'),
+(3,10000007,NULL,1,220000,'Depósito reciente','Exitosa','2025-11-05 10:20:00'),
+(4,10000002,NULL,2,90000,'Retiro reciente','Exitosa','2025-11-12 14:55:00'),
+(1,10000010,10000003,3,320000,'Transferencia reciente','Exitosa','2025-11-20 09:10:00'),
+(6,10000015,NULL,1,510000,'Depósito fin de mes','Exitosa','2025-11-28 16:30:00');
 
 -- Tipos de prestamos
 INSERT INTO tipos_prestamo (nombre_tipo, descripcion, tasa_minima, tasa_maxima, plazo_max_meses, requiere_garantia)
