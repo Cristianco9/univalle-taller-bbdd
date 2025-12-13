@@ -46,18 +46,6 @@ El proyecto fue desarrollado como parte académica de la asignatura **Bases de D
 
 ---
 
-## 🗂️ Estructura del Repositorio
-
-📁 src
-├── 01_DDL_BancoSeguro.sql
-├── 02_DML_INSERT_BancoSeguro.sql
-├── 03_DML_SELECT_BancoSeguro.sql
-├── 04_DML_UPDATE_DELETE_BancoSeguro.sql
-├── bancoSeguroDB.jpg
-└── documento-proyecto-final.pdf
-
----
-
 ## ⚙️ Tecnologías Utilizadas
 
 - PostgreSQL
